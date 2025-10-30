@@ -61,3 +61,119 @@ This stage focused on transforming transactional data into meaningful customer-l
 - Clean, customer-level dataset with standardized RFM features.
 - Outliers removed to maintain cluster quality.
 - Data ready for K-Means clustering.
+
+## K-Means Clustering
+After preparing and scaling the RFM features, the next step was to group customers with similar purchasing behaviors using the K-Means clustering algorithm.
+#### Steps Performed
+* Determining the Optimal Number of Clusters (K): To identify the most appropriate number of clusters, two complementary methods were used:
+    * Elbow Method 
+        * Plotted inertia (within-cluster sum of squares) against various k values (2–12). 
+        * The “elbow” point in the plot indicates where adding more clusters no longer significantly reduces inertia.
+    * Silhouette Score Method 
+        * Calculated Silhouette Scores for the same range of k values to measure cluster separation and cohesion. 
+        * A higher Silhouette Score indicates better-defined and well-separated clusters.
+
+![Elbow and Silhouette Plot](images/2_elbow_silhouette.png)
+Interpretation:
+- The Elbow curve showed a noticeable bend around K = 4.
+- The Silhouette score also peaked near this value, suggesting strong cluster separation.
+
+Hence, K = 4 was chosen as the optimal number of clusters.
+* Fitting the K-Means Model
+    ```python
+    kmeans = KMeans(n_clusters=4, random_state=42, max_iter=1000)
+    cluster_labels = kmeans.fit_predict(scaled_data_df)
+    non_outliers_df["Cluster"] = cluster_labels
+    ```
+    Each customer was assigned to one of four clusters based on their RFM behavior patterns.
+* 3D Visualization of Customer Segments
+
+![After Segmentation](images/3_after_segmentation.png)
+
+## Cluster Profiling and Business Insights
+After clustering, each group of customers was analyzed to interpret their RFM behavior, understand their value to the business, and define actionable strategies for engagement.
+### Cluster Analysis
+__Cluster 0 (Blue): "Retain"__
+Rationale: High-value customers who purchase regularly, though not always recently. The focus should be on retention efforts to maintain their loyalty and spending levels.  
+Action: 
+- Introduce loyalty or membership programs.
+- Send personalized offers and reminders.
+- Offer early access to new products or sales.
+
+__Cluster 1 (Orange): "Re-Engage"__
+Rationale: Low-value, infrequent buyers who have not purchased recently. The focus should be on re-engagement to bring them back into active purchasing behavior.  
+Action: 
+- Use targeted marketing campaigns and special discounts.
+- Highlight new arrivals or products related to their past purchases.
+- Send reminders to encourage them to return and purchase again.
+
+__Cluster 2 (Green): "Nurture"__
+Rationale: Low-spending but recent buyers, possibly new customers or early-stage shoppers who need nurturing to increase engagement and value.  
+Action:
+- Offer welcome discounts and personalized recommendations.
+- Provide excellent post-purchase follow-ups.
+- Educate them about your brand through content and social engagement.
+
+__Cluster 3 (Red): "Reward"__
+Rationale: High-value, frequent, and recent purchasers — the brand’s most loyal and profitable customers. They are the brand's most loyal customers, and rewarding their loyalty is key to maintaining their engagement.  
+Action: 
+- Implement VIP or tier-based loyalty programs.
+- Send exclusive offers and early-bird access.
+- Feature them in brand communities or referral programs.
+
+### Outlier Analysis
+Before clustering, customers with extreme RFM values (very high Monetary or Frequency scores) were identified as outliers. While excluded from the main clustering to prevent distortion of centroids, these customers hold significant business importance. They were analyzed separately and categorized into three key outlier segments.
+```python
+overlap_indices = monetary_outliers_df.index.intersection(frequency_outliers_df.index)
+
+monetary_only_outliers = monetary_outliers_df.drop(overlap_indices)
+frequency_only_outliers = frequency_outliers_df.drop(overlap_indices)
+monetary_and_frequency_outliers = monetary_outliers_df.loc[overlap_indices]
+
+monetary_only_outliers["Cluster"] = -1
+frequency_only_outliers["Cluster"] = -2
+monetary_and_frequency_outliers["Cluster"] = -3
+
+outlier_clusters_df = pd.concat([monetary_only_outliers, frequency_only_outliers, monetary_and_frequency_outliers])
+```  
+__Cluster -1 (Monetary Outliers)(Purple) Pamper:__
+- Rationale: High spenders but not necessarily frequent buyers. Their purchases are large but infrequent. 
+- Action: Focus on maintaining their loyalty with personalized offers or luxury services that cater to their high spending capacity.
+
+__Cluster -2 (Frequency Outliers)(Brown) Upsell:__ 
+- Rationale: Frequent buyers who spend less per purchase. These customers demonstrate consistent engagement but contribute modestly to total revenue per transaction. 
+- Action: Encourage higher spending by offering bundle deals, loyalty tiers, or product upgrades that reward their frequent interactions.
+
+__Cluster -3 (Monetary & Frequency Outliers)(Pink) Delight:__ 
+- Rationale: The most valuable outliers, with extreme spending and frequent purchases. These are top-tier customers driving significant revenue and require special attention. 
+- Action: Provide exclusive VIP programs, early access to new products, and personalized recognition to reinforce their loyalty and advocacy.  
+
+### Cluster Distribution and Feature Averages
+A combined bar and line chart was created to show:
+- The number of customers per cluster, and
+- The average Recency, Frequency, and Monetary Value per 100 pounds for each segment.  
+![plot](images/4_ClusterDistribution_FeatureAverages.png)
+
+## Customer Segmentation App
+This interactive Streamlit webapp allows users to predict the customer segment for any given individual based on their Recency, Frequency, and Monetary Value (RFM) scores.
+The app uses the trained K-Means model and standard scaler saved from the clustering process.
+#### How It Works
+* The user enters RFM values.
+* The app scales these inputs using the saved scaler.pkl.
+* The scaled data is passed into the K-Means model (kmeans_model.pkl).
+* The predicted cluster is mapped to one of the following customer segments:
+    * Cluster 0: RETAIN
+    * Cluster 1: RE-ENGAGE
+    * Cluster 2: NURTURE
+    * Cluster 3: REWARD
+* The resulting segment name is displayed instantly.
+
+#### Note
+Outlier clusters (PAMPER, UPSELL, and DELIGHT) were identified during exploratory analysis but are not part of live model predictions.
+
+#### Usage
+Run the app locally:
+```
+streamlit run app.py
+```
+![demo_snapshot](images/5_customerSegmentationApp.png)
