@@ -1,3 +1,56 @@
+<p align="center" style="margin: 0; padding: 0;">
+  <img src="images/1_before_segmentation.png" alt="Before Segmentation" width="45%" style="margin:0; padding:0;"/>
+  <img src="images/3_after_segmentation.png" alt="After Segmentation" width="45%" style="margin:0; padding:0;"/>
+</p>
+
+## Table of Contents
+
+[Overview](#overview) <br>
+[Requirements](#requirements) <br>
+[App Execution Guide](#app-execution-guide) <br>
+[Data Acquisition](#data-acquisition) <br>
+[Data Preparation](#data-preparation) <br>
+[Raw Data Description](#raw-data-description) <br>
+[Data Exploration](#data-exploration) <br>
+[Modeling](#modeling) <br>
+[Summary](#summary) <br>
+[Front-end](#front-end) <br>
+[Conclusions](#conclusions) <br>
+[References](#references) <br>
+[About Me](#about-me)
+
+## Overview
+This project focuses on Customer Segmentation Analysis using RFM (Recency, Frequency, Monetary) modeling to better understand customer behavior and optimize marketing strategies.
+By analyzing transaction data, customers were grouped into distinct clusters that reflect their purchasing habits, loyalty, and value to the business. This analysis helps identify key customer groups — such as loyal customers, potential churners, and new buyers — allowing businesses to tailor marketing strategies for each segment.  
+The process involved:
+- __Data Cleaning:__ Filtering invalid invoices, removing nulls, and ensuring only valid transactions are analyzed.
+- __Feature Engineering:__ Creating RFM metrics to capture essential aspects of customer activity.
+- __K-Means Clustering:__ Segmenting customers into meaningful groups based on their RFM values.
+- __Cluster Profiling:__ Interpreting clusters to define actionable customer segments such as Retain, Re-Engage, Nurture, and Reward.
+- __Outlier Analysis:__ Identifying and analyzing high-value or high-frequency outliers to uncover VIP customer behaviors.
+- __Streamlit App:__ Allowing users to predict a customer’s segment in real time.
+
+## Requirements
+Python Packages:
+- pandas
+- numpy
+- matplotlib
+- seaborn
+- scikit-learn
+- openpyxl
+- streamlit
+- joblib  
+
+Installing the packages using the [requirements](requirements.txt) file:  
+```
+pip install -r .\requirements.txt
+```
+## App Execution Guide
+Run the app locally:
+```
+streamlit run app.py
+```
+![demo_snapshot](images/5_customerSegmentationApp.png)
 ## Data Exploration
 The second step involved exploring and understanding the structure and quality of the dataset before performing any cleaning or segmentation.
 #### Steps Performed
@@ -177,3 +230,12 @@ Run the app locally:
 streamlit run app.py
 ```
 ![demo_snapshot](images/5_customerSegmentationApp.png)
+
+## Conclusion
+This project demonstrates the power of RFM-based customer segmentation in transforming raw transactional data into actionable business insights.
+By applying K-Means clustering and analyzing behavioral patterns, customers were classified into distinct groups that represent different levels of engagement, loyalty, and value.
+
+The analysis not only revealed how to retain high-value customers and re-engage inactive ones, but also provided a framework for personalized marketing strategies and resource optimization.
+The inclusion of a Streamlit app further extends the project’s utility, enabling real-time predictions for new customers based on their RFM characteristics.
+
+In essence, this project bridges the gap between data science and business strategy, illustrating how clustering and behavioral analytics can drive customer-centric growth and long-term profitability.
