@@ -1,3 +1,4 @@
+# Customer Segmentation with RFM Analysis
 <p align="center" style="margin: 0; padding: 0;">
   <img src="images/1_before_segmentation.png" alt="Before Segmentation" width="45%" style="margin:0; padding:0;"/>
   <img src="images/3_after_segmentation.png" alt="After Segmentation" width="45%" style="margin:0; padding:0;"/>
@@ -8,16 +9,13 @@
 [Overview](#overview) <br>
 [Requirements](#requirements) <br>
 [App Execution Guide](#app-execution-guide) <br>
-[Data Acquisition](#data-acquisition) <br>
-[Data Preparation](#data-preparation) <br>
-[Raw Data Description](#raw-data-description) <br>
 [Data Exploration](#data-exploration) <br>
-[Modeling](#modeling) <br>
-[Summary](#summary) <br>
-[Front-end](#front-end) <br>
-[Conclusions](#conclusions) <br>
-[References](#references) <br>
-[About Me](#about-me)
+[Data Cleaning](#data-cleaning) <br>
+[Feature Engineering and Data Preparation](#feature-engineering-and-data-preparation) <br>
+[K-Means Clustering](#k-means-clustering) <br>
+[Cluster Profiling and Business Insights](#cluster-profiling-and-business-insights) <br>
+[Customer Segmentation App](#customer-segmentation-app) <br>
+[Conclusion](#conclusion) <br>
 
 ## Overview
 This project focuses on Customer Segmentation Analysis using RFM (Recency, Frequency, Monetary) modeling to better understand customer behavior and optimize marketing strategies.
@@ -146,28 +144,28 @@ Hence, K = 4 was chosen as the optimal number of clusters.
 ## Cluster Profiling and Business Insights
 After clustering, each group of customers was analyzed to interpret their RFM behavior, understand their value to the business, and define actionable strategies for engagement.
 ### Cluster Analysis
-__Cluster 0 (Blue): "Retain"__
+__Cluster 0 (Indigo): "Retain"__
 Rationale: High-value customers who purchase regularly, though not always recently. The focus should be on retention efforts to maintain their loyalty and spending levels.  
 Action: 
 - Introduce loyalty or membership programs.
 - Send personalized offers and reminders.
 - Offer early access to new products or sales.
 
-__Cluster 1 (Orange): "Re-Engage"__
+__Cluster 1 (Amber): "Re-Engage"__
 Rationale: Low-value, infrequent buyers who have not purchased recently. The focus should be on re-engagement to bring them back into active purchasing behavior.  
 Action: 
 - Use targeted marketing campaigns and special discounts.
 - Highlight new arrivals or products related to their past purchases.
 - Send reminders to encourage them to return and purchase again.
 
-__Cluster 2 (Green): "Nurture"__
+__Cluster 2 (Lime Green): "Nurture"__
 Rationale: Low-spending but recent buyers, possibly new customers or early-stage shoppers who need nurturing to increase engagement and value.  
 Action:
 - Offer welcome discounts and personalized recommendations.
 - Provide excellent post-purchase follow-ups.
 - Educate them about your brand through content and social engagement.
 
-__Cluster 3 (Red): "Reward"__
+__Cluster 3 (Crimson): "Reward"__
 Rationale: High-value, frequent, and recent purchasers — the brand’s most loyal and profitable customers. They are the brand's most loyal customers, and rewarding their loyalty is key to maintaining their engagement.  
 Action: 
 - Implement VIP or tier-based loyalty programs.
